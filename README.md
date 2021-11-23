@@ -18,3 +18,5 @@ Syntaksi on hyvin pitkälti samankaltainen kuin PostgreSQL:ssä.
 
 Tutustu koodiin ja siinä oleviin kommentteihin. Niistä voi olla apua tehtävän kannalta.
 
+
+
