@@ -1,3 +1,8 @@
+#Tää näytti hyvältä ja db:n tiedot ilmeisesti tulee os:n ympäristömuuttujista kivasti ja nätisti. Good job. 
+#abort(404):a jos käyttää niin sitä voi käyttää noissa muissakin kohdissa kun luo yhteyttä, mut toisaalta jos se 
+#ylhäällä koodissa epäonnistuu niin joka tapauksessa koko appi kaatuu, joten kai ihan sama.
+#tykättiin teidän readme dokumentaatiosta paljon, oli detaileja että miten appia käytetään!
+
 #!/usr/bin/python
 from flask import Flask, render_template, request, url_for, flash, redirect
 from werkzeug.exceptions import abort
