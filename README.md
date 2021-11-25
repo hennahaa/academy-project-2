@@ -49,6 +49,8 @@ Tässä kohtaa voi myös asettaa pätevän salasanan `secrets.yaml`-tiedoston `P
 
 Ja tämä palauttaa salasanan secretsin haluamassa muodossa.
 
+`blog_app.yaml` deploymentin `image:`-kohtaan on täydennettävä luomasi container-imagen osoite artifact registeryssa. Eli jotain seuraavaa: `LOCATION.pkg.dev/PROJECT/REPOSITORY/<haluamasi-imagen-nimi-repossa>`
+
 Lopuksi vielä luo tietokanta (`schema.sql`) postgres-servicen loadbalancerin External IP:n kautta.
 
     psql -h EXTERNAL-IP -p 5432 -d postgresdb -U postgresadmin -W
