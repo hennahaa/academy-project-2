@@ -1,7 +1,7 @@
 # AW ACADEMY RYHMÄTYÖ 2
 ## Konttiprojekti
 
-@Anna1hanen @hennahaa @KirsiHolmberg
+[Anna1hanen](https://github.com/Anna1hanen) | hennahaa | [KirsiHolmberg](https://github.com/KirsiHolmberg)
 
 Pohjana käytetty koodi: https://github.com/runeli/assesment-test
 
