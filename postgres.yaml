@@ -20,15 +20,11 @@ spec:
           imagePullPolicy: "IfNotPresent"
           ports:
             - containerPort: 5432
-          env:
-            - name: POSTGRES_PASSWORD
-              valueFrom:
-                secretKeyRef:
-                  name: postgres-secrets
-                  key: POSTGRES_PASSWORD
           envFrom:
             - configMapRef:
                 name: postgres-config
+            - secretRef:
+                name: postgres-secrets
           volumeMounts:
             - mountPath: /var/lib/postgresql/data
               name: postgredb
@@ -40,6 +36,7 @@ spec:
 ---
 
 #PostGres Service
+
 apiVersion: v1
 kind: Service
 metadata:
@@ -55,6 +52,23 @@ spec:
 
 
 ---
+#Postgres LoadBalancer
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: postgres-service
+spec:
+  type: LoadBalancer
+  selector:
+    app: postgres
+  ports:
+  - port: 5432
+    protocol: TCP
+    targetPort: 5432
+
+---
+
 
 #PostGres Storage
 
