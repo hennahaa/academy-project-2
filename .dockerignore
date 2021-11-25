@@ -1,0 +1,10 @@
+placeholder_posts.sql
+README.md
+__pycache__
+*.pyc
+*.pyo
+*.pyd
+komentoja.sh
+secrets.yaml
+postgres.yaml
+blog_app.yaml

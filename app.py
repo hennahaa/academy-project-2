@@ -3,12 +3,11 @@ from flask import Flask, render_template, request, url_for, flash, redirect
 from werkzeug.exceptions import abort
 from datetime import datetime
 import psycopg2
-from config import config
+import os
 
 
 def get_db_connection():
-    conn = psycopg2.connect(**config())
-    return conn
+    return psycopg2.connect(host=os.getenv('POSTGRES_HOST'), database=os.getenv('POSTGRES_DB'), user=os.getenv('POSTGRES_USER'), password=os.getenv('POSTGRES_PASSWORD'))
 
 #
 

@@ -1,0 +1,45 @@
+# Blog App Deployment
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: blog-app-deployment
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: blog
+  template:
+    metadata:
+      labels:
+        app: blog
+    spec:
+      containers:
+      - name: blog-app
+        image: europe-north1-docker.pkg.dev/fall-week7-1/hello-repo/helloworld-gke:juukeli_2
+        imagePullPolicy: "Always"
+        ports:
+        - containerPort: 80
+        envFrom:
+          - configMapRef:
+              name: postgres-config
+          - secretRef:
+              name: postgres-secrets
+
+
+---
+# Blog App LoadBalancer
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: blog-app-service
+spec:
+  type: LoadBalancer
+  selector:
+    app: blog
+  ports:
+  - port: 80
+    protocol: TCP
+    targetPort: 80
+

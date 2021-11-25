@@ -1,22 +1,67 @@
 # AW ACADEMY RYHMÄTYÖ 2
 ## Konttiprojekti
 
+@Anna1hanen @hennahaa @KirsiHolmberg
+
 Pohjana käytetty koodi: https://github.com/runeli/assesment-test
 
 Pohja käyttää flaskia https://flask.palletsprojects.com/en/2.0.x/
 
-## Asennus
+Muokattu käyttämään PosgreSQL:ää.
 
-(Alkuperäisen READMEn ohjeet)
+## Ohje
 
-1. Aloita asentamalla riippuvuudet `pip install flask`.
-2. Aja `flask run --host=0.0.0.0 --port=80 --reload`. `--reload` parametri käynnistää projektin uusiksi aina kun lähdekoodi muuttuu. Samalla resetoituu tietokanta alkuperäiseen tilaansa.
-3. Avaa selain omalla koneella ja kohdista se osoitteeseen http://localhost
+Luo ensin GCP Artifact Registryyn Docker-repo
 
-Taustalla on SQLLite tietokanta, joka ei vaadi käyttäjältä erillistä serveriä. Kaikki tallennetaan lokaaliin tiedostoon ja luetaan sieltä.
-Syntaksi on hyvin pitkälti samankaltainen kuin PostgreSQL:ssä.
+    gcloud artifacts repositories create REPOSITORY \
+        --project=PROJECT\
+        --repository-format=docker \
+        --location=LOCATION \
+        --description="Docker repository"
 
-Tutustu koodiin ja siinä oleviin kommentteihin. Niistä voi olla apua tehtävän kannalta.
+Buildaa image
+
+    docker build . -t <haluamasi-imagen nimi>  
+
+Tägää luomasi image
+
+    docker tag <haluamasi-imagen-nimi> LOCATION-docker.pkg.dev/PROJECT/REPOSITORY/<haluamasi-imagen-nimi-repossa>
+
+Pushaa tämä
+
+    docker push LOCATION.pkg.dev/PROJECT/REPOSITORY/<haluamasi-imagen-nimi-repossa>
+
+Luo K8S cluster (zone samalla alueella kuin location)  
+
+    gcloud container clusters create CLUSTER \
+    --num-nodes 1 \
+    --zone COMPUTE_ZONE
+
+Deployaa .yamlit  
+    
+    kubectl apply -f <tiedostonnimi>.yaml
+
+Muista korjata `secrets.yaml` configmapiin Postgresin Nodeportin Internal IP-osoite
+
+Tässä kohtaa voi myös asettaa pätevän salasanan `secrets.yaml`-tiedoston `POSTGRES_PASSWORD`-muuttujaan. Muuttujan luoda linuxissa seuraavasti:
+
+    echo "HALUAMASI_SALASANA" | base64
+
+Ja tämä palauttaa salasanan secretsin haluamassa muodossa.
+
+Lopuksi vielä luo tietokanta (`schema.sql`) postgres-servicen loadbalancerin External IP:n kautta.
+
+    psql -h EXTERNAL-IP -p 5432 -d postgresdb -U postgresadmin -W
+
+(Postgresin loadbalancerin voi halutessaan poistaa tämän jälkeen. Se sijaitsee tiedostossa `postgres.yaml`)
+
+---
+
+Ohje *ei* ota kantaa onko komentoihin tarvittava autentikaatio kunnossa. Allaolevista linkeistä on apua näissä ongelmissa:
+
+[Setting up authentication for Docker](https://cloud.google.com/artifact-registry/docs/docker/authentication)
+
+[Troubleshooting Cloud Endpoints in GKE](https://cloud.google.com/endpoints/docs/openapi/troubleshoot-gke-deployment)
 
 
 
