@@ -63,3 +63,5 @@ Ohje *ei* ota kantaa onko komentoihin tarvittava autentikaatio kunnossa. Allaole
 
 [Troubleshooting Cloud Endpoints in GKE](https://cloud.google.com/endpoints/docs/openapi/troubleshoot-gke-deployment)
 
+
+
